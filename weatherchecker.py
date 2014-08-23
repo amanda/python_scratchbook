@@ -1,7 +1,7 @@
 import forecastio
 from pyzipcode import ZipCodeDatabase
 
-api_key = "0a555c7fc17950bf42d68315e25b1544"
+api_key = "blah"
 zcdb = ZipCodeDatabase()
 
 isCelsius = raw_input("Celsius or farenheit? Enter C or F: ")
