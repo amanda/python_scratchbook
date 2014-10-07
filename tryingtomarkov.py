@@ -56,5 +56,5 @@ if __name__ == '__main__':
 	with open(input_file) as f:
 		my_text = ' '.join(f.readlines())
 		my_words = get_words_from(my_text)
-		make_markov_dict(my_words)
+		my_markov_dict = make_markov_dict(my_words)
 	
