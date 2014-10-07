@@ -10,7 +10,7 @@ from sys import argv
 """
 
 #tokenize a text using nltk
-def tokenize_text(some_file):
+def get_words_from(some_file):
 	tokens = nltk.wordpunct_tokenize(some_file)
 	text = nltk.Text(tokens)
 	words = [w.lower() for w in text]
@@ -40,7 +40,7 @@ def tokenize_text(some_file):
 
 def make_markov_dict(some_words):
 	'''where the magic happens (i have no idea what i am doing)
-	some_words is a list of words (from a tokenized text)'''
+	some_words is a list of words (the tokenized text)'''
 	zippy_words = zip(some_words, some_words[1:])
 	markov_dict = defaultdict(lambda: defaultdict(int))
 	for a, b in zippy_words:
@@ -48,9 +48,13 @@ def make_markov_dict(some_words):
 	return markov_dict
 
 
+
+
 if __name__ == '__main__':
+	#need error checking
 	input_file = args[1]
 	with open(input_file) as f:
 		my_text = ' '.join(f.readlines())
-		my_words = tokenize_text(my_text)
+		my_words = get_words_from(my_text)
+		make_markov_dict(my_words)
 	
