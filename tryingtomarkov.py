@@ -24,7 +24,7 @@ def get_words_from(some_file):
 # #sample reference
 # word_dict["hello"][1][1]
 
-# #list of words in the text
+# list of words in the text
 # tokens = ["hello", "there", "world", "yeah", "cool"]
 
 #loop through list of tokens to make dictionary of likelihoods
@@ -47,7 +47,8 @@ def make_markov_dict(some_words):
 		markov_dict[a][b] += 1
 	return markov_dict
 
-
+def generate_sentence():
+	#makes sentence based on word frequency
 
 
 if __name__ == '__main__':
@@ -57,4 +58,5 @@ if __name__ == '__main__':
 		my_text = ' '.join(f.readlines())
 		my_words = get_words_from(my_text)
 		my_markov_dict = make_markov_dict(my_words)
+
 	
