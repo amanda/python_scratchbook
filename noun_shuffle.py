@@ -4,7 +4,7 @@ from textblob.taggers import NLTKTagger
 import random
 from sys import argv
 
-def make_pos_dict(some_text):
+def make_pos_dict(text):
 	nltk_tagger = NLTKTagger()
 	blob = TextBlob(some_text, pos_tagger=nltk_tagger)
 	pos_words = dict(blob.pos_tags)
@@ -29,7 +29,13 @@ def get_indices(token_list, noun_list):
 			indices.append(token_list.index(i))
 	return indices
 
-def get_tokens(some_text):
+def get_tokens(text):
+	with open(text_file) as f:
+		text = ' '.join(f.readlines())
+		blob = TextBlob(text)
+		tokens = list(blob.words)
+		
+
 
 def shuffle_nouns(text_file):
 	#needs some error checking
@@ -38,8 +44,6 @@ def shuffle_nouns(text_file):
 		text = ' '.join(f.readlines())
 		blob = TextBlob(text)
 		tokens = list(blob.words) #cast WordList as a list
-		#return tokens
-
 		pos_text = make_pos_dict(text)
 		nouns = get_nouns(pos_text) #this is a list
 		extra_nouns = nouns[:] #for when a noun occurs more than once
@@ -53,9 +57,9 @@ def shuffle_nouns(text_file):
 			else:
 				tokens[index] = extra_nouns.pop()
 
-		return tokens #list of tokens with mixed-up nouns
-
-		#todo: tokens to string (?) of text, .lower() for consistency
+		return (' '.join(tokens)).lower()
+		
+			
 
 
 
