@@ -3,6 +3,7 @@ from textblob import TextBlob
 from textblob.taggers import NLTKTagger
 import random
 from sys import argv
+import sys
 
 def make_pos_dict(text):
 	nltk_tagger = NLTKTagger()
@@ -23,7 +24,6 @@ def get_indices(token_list, noun_list):
 
 
 def shuffle_nouns(text_file):
-	#needs some error checking
 	with open(text_file) as f:
 		text = ' '.join(f.readlines())
 		blob = TextBlob(text)
@@ -37,11 +37,15 @@ def shuffle_nouns(text_file):
 		for index in noun_indices:
 			if nouns:
 				tokens[index] = nouns.pop()
-			else:
+			elif extra_nouns:
 				tokens[index] = extra_nouns.pop()
 		return (' '.join(tokens)).lower()
 
 if __name__ == '__main__':
 	args = argv[:]
-	input_file = args.pop()
+	try:
+		input_file = args[1]
+	except IndexError:
+		print 'usage: python noun_suffle.py file.txt'
+		sys.exit()
 	print shuffle_nouns(input_file)
