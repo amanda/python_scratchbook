@@ -1,4 +1,3 @@
-import nltk
 from textblob import TextBlob
 from textblob.taggers import NLTKTagger
 import random
