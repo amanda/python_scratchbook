@@ -53,6 +53,7 @@ def generate_sentence():
 
 if __name__ == '__main__':
 	#need error checking
+	args = argv[:]
 	input_file = args[1]
 	with open(input_file) as f:
 		my_text = ' '.join(f.readlines())
