@@ -169,23 +169,23 @@ def get_card():
 		meaning = CARDS[card]
 		return meaning
 
-def over_again():
+def play_again():
 	again = raw_input('would you like to look up another card? enter y or n: ').lower()
 	if again == 'n':
 		return False
-	if again != 'y' or 'n':
+	elif again != ('y' or 'n'):
 		print 'please enter y or n'
 		play_again()
-
+	
 if __name__ == '__main__':
 	while True:
 		try:
 			print get_card()
-			again = over_again()
+			again = play_again()
 			if again == False:
 				break
 		except KeyError:
 			print 'sorry, that card does not exist, or maybe you spelled it wrong?'
-			again = over_again()
+			again = play_again()
 			if again == False:
 				break
