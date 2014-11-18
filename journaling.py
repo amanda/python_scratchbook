@@ -4,7 +4,7 @@ import os.path
 import argparse
 import sys
 
-journal_path = os.path.join(os.path.expanduser('~'), 'journal')
+JOURNAL_PATH = os.path.join(os.path.expanduser('~'), 'journal')
 
 def make_directory(path):
 	try:
@@ -37,10 +37,16 @@ if __name__ == '__main__':
 	parser.add_argument('title', type=str, help='note title')
 	parser.add_argument('-r', '--read', action='store_true')
 	args = parser.parse_args()
+	note = os.path.join(JOURNAL_PATH, args.title)
+	if not os.path.exists(JOURNAL_PATH):
+		make_directory(JOURNAL_PATH)
+		new_note(JOURNAL_PATH, args.title)
 	if args.read:
-		print read_note(args.title)
-	elif os.path.exists(journal_path):
-		new_note(journal_path, args.title)
+		try:
+			print read_note(JOURNAL_PATH, args.title)
+		except IOError:
+			print 'that note does not exist.'
+	elif os.path.exists(os.path.join(JOURNAL_PATH, args.title)):
+		print 'that note already exists, choose a new title.'
 	else:
-		make_directory(journal_path)
-		new_note(journal_path, args.title)
+		new_note(JOURNAL_PATH, args.title)
