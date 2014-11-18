@@ -1,51 +1,46 @@
 import datetime
+import os
 import os.path
 import argparse
-from collections import defaultdict
+import sys
 
-# use a database eventually
-ENTRIES = []
+journal_path = os.path.join(os.path.expanduser('~'), 'journal')
 
-def _get_lines():
+def make_directory(path):
+	try:
+		os.mkdir(path)
+	except OSError:
+		print 'something went wrong!'
+
+def get_lines():
+	text = ''
+	print 'write your note, then write \'done\' when done.'
 	while True:
 		line = raw_input('> ')
-		if line == '\n':
+		if line == 'done':
 			break
-		yield line
+		text += '%s \n' % line
+	return text
 
-def create(title):
-	'''creates a journal file in the current directory'''
-	with open(title, 'w') as f:
+def new_note(path, title):
+	with open((os.path.join(path, title)), 'w') as f:
+		lines = get_lines()
 		time = str(datetime.datetime.now())
-		f.write(time + '\n')
-		lines = _get_lines()
-		f.write(lines)
-		ENTRIES.append(time)
+		f.write(time + '\n' + lines)
 
-def new_entry(title):
-	'''opens journal.txt for writing, adds a date, time'''
-	with open(title, 'a') as f:
-		time = str(datetime.datetime.now())
-		f.write(time + '\n')
-		lines = _get_lines()
-		f.write(lines)
-		ENTRIES.append(time)
-
-def read_last_note():
-	'''allows you to read last note 
-	todo: index notes by date? number?'''
-	title = ENTRIES[-1]
-	with open(title, 'r') as f:
+def read_note(path, title):
+	with open((os.path.join(path, title)), 'r') as f:
 		return f.read()
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
-	parser.add_argument('title', type=str)
+	parser.add_argument('title', type=str, help='note title')
 	parser.add_argument('-r', '--read', action='store_true')
 	args = parser.parse_args()
 	if args.read:
-		print read_last_note()
-	elif os.path.exists(args.title):
-		new_entry(args.title)
+		print read_note(args.title)
+	elif os.path.exists(journal_path):
+		new_note(journal_path, args.title)
 	else:
-		create('journal.txt')
+		make_directory(journal_path)
+		new_note(journal_path, args.title)
