@@ -26,7 +26,7 @@ def new_note(path, title):
 	with open((os.path.join(path, title)), 'w') as f:
 		lines = get_lines()
 		time = str(datetime.datetime.now())
-		f.write(time + '\n' + lines)
+		f.write(time + '\n\n' + lines)
 
 def read_note(path, title):
 	with open((os.path.join(path, title)), 'r') as f:
@@ -41,7 +41,7 @@ if __name__ == '__main__':
 	if not os.path.exists(JOURNAL_PATH):
 		make_directory(JOURNAL_PATH)
 		new_note(JOURNAL_PATH, args.title)
-	if args.read:
+	elif args.read:
 		try:
 			print read_note(JOURNAL_PATH, args.title)
 		except IOError:
