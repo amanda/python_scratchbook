@@ -26,16 +26,23 @@ def new_note(path, title):
 	with open((os.path.join(path, title)), 'w') as f:
 		lines = get_lines()
 		time = str(datetime.datetime.now())
-		f.write(time + '\n\n' + lines)
+		f.write(time + '\n' + lines)
 
 def read_note(path, title):
 	with open((os.path.join(path, title)), 'r') as f:
 		return f.read()
 
+def edit_note(path, title):
+	with open((os.path.join(path, title)), 'a') as f:
+		lines = get_lines()
+		time = str(datetime.datetime.now())
+		f.write('\n' + time + '\n' + lines)
+
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	parser.add_argument('title', type=str, help='note title')
 	parser.add_argument('-r', '--read', action='store_true')
+	parser.add_argument('-e', '--edit', action='store_true')
 	args = parser.parse_args()
 	note = os.path.join(JOURNAL_PATH, args.title)
 	if not os.path.exists(JOURNAL_PATH):
@@ -46,6 +53,8 @@ if __name__ == '__main__':
 			print read_note(JOURNAL_PATH, args.title)
 		except IOError:
 			print 'that note does not exist.'
+	elif args.edit:
+		edit_note(JOURNAL_PATH, args.title)
 	elif os.path.exists(os.path.join(JOURNAL_PATH, args.title)):
 		print 'that note already exists, choose a new title.'
 	else:
