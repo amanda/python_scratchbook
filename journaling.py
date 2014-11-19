@@ -38,13 +38,17 @@ def edit_note(path, title):
 		time = str(datetime.datetime.now())
 		f.write('\n' + time + '\n' + lines)
 
+def see_all_notes(path):
+	return os.listdir(path)
+
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
-	parser.add_argument('title', type=str, help='note title')
+	parser.add_argument('title', type=str, nargs='?', help='note title')
 	parser.add_argument('-r', '--read', action='store_true')
 	parser.add_argument('-e', '--edit', action='store_true')
+	parser.add_argument('-v', '--view', action='store_true')
 	args = parser.parse_args()
-	note = os.path.join(JOURNAL_PATH, args.title)
+	#note = os.path.join(JOURNAL_PATH, args.title)
 	if not os.path.exists(JOURNAL_PATH):
 		make_directory(JOURNAL_PATH)
 		new_note(JOURNAL_PATH, args.title)
@@ -55,6 +59,8 @@ if __name__ == '__main__':
 			print 'that note does not exist.'
 	elif args.edit:
 		edit_note(JOURNAL_PATH, args.title)
+	elif args.view:
+		print see_all_notes(JOURNAL_PATH)
 	elif os.path.exists(os.path.join(JOURNAL_PATH, args.title)):
 		print 'that note already exists, choose a new title.'
 	else:
