@@ -21,7 +21,6 @@ def get_indices(token_list, noun_list):
 			indices.append(token_list.index(i))
 	return indices
 
-
 def shuffle_nouns(text_file):
 	with open(text_file) as f:
 		text = ' '.join(f.readlines())
@@ -35,9 +34,9 @@ def shuffle_nouns(text_file):
 		random.shuffle(extra_nouns)
 		for index in noun_indices:
 			if nouns:
-				tokens[index] = nouns.pop()
+				tokens[index] = nouns[random.randint(0, len(nouns) - 1)]
 			elif extra_nouns:
-				tokens[index] = extra_nouns.pop()
+				tokens[index] = extra_nouns[random.randint(0, len(nouns) - 1)]
 		return (' '.join(tokens)).lower()
 
 if __name__ == '__main__':
@@ -45,6 +44,6 @@ if __name__ == '__main__':
 	try:
 		input_file = args[1]
 	except IndexError:
-		print 'usage: python noun_suffle.py file.txt'
+		print 'usage: python noun_shuffle.py file.txt'
 		sys.exit()
 	print shuffle_nouns(input_file)
