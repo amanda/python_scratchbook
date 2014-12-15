@@ -30,7 +30,7 @@ def choose_word(start_key, freq_dict):
 	rando = random.random() * cumulative_distribution[-1]
 	return choices[bisect.bisect(cumulative_distribution, rando)] #string
 
-def generate_tweet(markov_dict, ngram):
+def generate_tweet(markov_dict):
 	start_tups = [k for k in markov_dict.keys() if k[0] == '.']
 	start_tup = random.choice(start_tups) #let me tell you about my startup
 	tweet_length = 0
